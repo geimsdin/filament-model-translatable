@@ -1,0 +1,25 @@
+{
+    "name": "unusualdope/filament-model-translatable",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Unusualdope\\FilamentModelTranslatable\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "daftspunk/laravel-config-writer": "*",
+        "guzzlehttp/guzzle": "^7.2",
+        "filament/filament": "3.1",
+        "laravel/framework": "^10.10"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Unusualdope\\FilamentModelTranslatable\\FmtPanelProvider"
+            ]
+        }
+    }
+}
