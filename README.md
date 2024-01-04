@@ -21,7 +21,6 @@ Below an example of model definition in YAML for blueprint package:
       belongsTo: Language
 ```
 
-
 ## INSTALLATION
 
 Simply install using composer
@@ -113,6 +112,18 @@ instead of the standard ~~`Filament\Resources\Pages\CreateRecord`~~
 On the EDIT page extend 
 `Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtEditRecord` 
 instead of the standard ~~`Filament\Resources\Pages\EditRecord`~~
+
+e.g.:
+
+```
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtCreateRecord;
+
+class CreatePlan extends FmtCreateRecord
+{
+    protected static string $resource = PlanResource::class;
+}
+```
+
 
 ## RESULT
 You will get a tab that let you change language and fill the content for every language:
