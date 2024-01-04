@@ -1,17 +1,14 @@
 <?php
 namespace Unusualdope\FilamentModelTranslatable\Traits;
 
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Get;
+
 
 trait FmtModelTrait
 {
-    public static function addTranslatableFieldsToSchema( $schema, Form $form )
+    public static function addTranslatableFieldsToSchema( $schema, Form $form, $merge = true )
     {
         $languages = FmtLanguage::all()->pluck('iso_code', 'id')->toArray();
         $current_language = FmtLanguage::where( 'iso_code', app()->getLocale() )->value('id');
@@ -31,9 +28,7 @@ trait FmtModelTrait
                             if (is_string($params)) {
                                 $new_field = $new_field->{$method}($params);
                             } elseif (is_array($params) && count($params) > 0) {
-                                /**
-                                 * @todo find and implement methods with more than one param
-                                 */
+                                call_user_func($new_field->{$method}, $params);
                             }
                         }
                     }
@@ -47,8 +42,12 @@ trait FmtModelTrait
             }
             $tabs = [Tabs::make('Tabs')->columnSpanFull()
                 ->tabs($lang_tabs)];
+            if ($merge) {
+                $schema = array_merge( $schema, $tabs );
+            } else {
+                return $tabs;
+            }
 
-            $schema = array_merge( $schema, $tabs );
         }
 
         return $schema;

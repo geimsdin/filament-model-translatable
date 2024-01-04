@@ -29,5 +29,7 @@ class FmtPlugin implements Plugin
     public function boot(Panel $panel): void
     {
         app()->resolveProvider('October\Rain\Config\ServiceProvider');
+
+        
     }
 }
