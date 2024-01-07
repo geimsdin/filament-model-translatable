@@ -38,8 +38,8 @@ class FmtEditRecord extends EditRecord
     }
 
 
-    protected function afterEdit()
+    protected function afterSave()
     {
-        FmtHelper::saveWithLang( $this->record, $this->data, false);
+        FmtHelper::saveWithLang( $this->record, $this->data, true);
     }
 }

@@ -2,35 +2,21 @@
 
 namespace  Unusualdope\FilamentModelTranslatable\Filament\Resources;
 
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\CreateLanguage;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\EditLanguage;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\ListLanguages;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\CreateFmtLanguage;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\EditFmtLanguage;
 use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\ListFmtLanguages;
 
-class LanguageResource extends Resource implements HasShieldPermissions
+class FmtLanguageResource extends Resource
 {
     protected static ?string $model = FmtLanguage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function getPermissionPrefixes(): array
-    {
-        return [
-            'view',
-            'view_any',
-            'create',
-            'update',
-            'delete',
-            'delete_any',
-            'publish'
-        ];
-    }
 
     public static function form(Form $form): Form
     {
@@ -90,9 +76,9 @@ class LanguageResource extends Resource implements HasShieldPermissions
     public static function getPages(): array
     {
         return [
-            'index' => ListLanguages::route('/'),
-            'create' => CreateLanguage::route('/create'),
-            'edit' => EditLanguage::route('/{record}/edit'),
+            'index' => ListFmtLanguages::route('/'),
+            'create' => CreateFmtLanguage::route('/create'),
+            'edit' => EditFmtLanguage::route('/{record}/edit'),
         ];
     }
 }

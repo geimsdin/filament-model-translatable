@@ -4,7 +4,7 @@ namespace Unusualdope\FilamentModelTranslatable;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\FmtLanguageResource;
 
 class FmtPlugin implements Plugin
 {
@@ -22,14 +22,14 @@ class FmtPlugin implements Plugin
     {
         $panel
             ->resources([
-                LanguageResource::class
-            ]);
+                FmtLanguageResource::class
+            ])->authGuard('web');
     }
 
     public function boot(Panel $panel): void
     {
         app()->resolveProvider('October\Rain\Config\ServiceProvider');
 
-        
+
     }
 }

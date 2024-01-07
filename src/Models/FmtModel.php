@@ -12,6 +12,36 @@ class FmtModel extends Model
     protected $is_translatable = false;
     protected $translatable = [];
 
+    /**
+     * Fill the model with an array of attributes.
+     *
+     * @param  array  $attributes
+     * @return $this
+     *
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     */
+    public function fill(array $attributes)
+    {
+        parent::fill($attributes);
+
+
+        $translations = $this->lang_model::where($this->lang_foreign_key, $this->id);
+        foreach( $translations as $translation ) {
+
+            foreach( $this->translatable as $field_name => $translatable ) {
+                $this->$field_name . '_' . $translation['language_id'] = $translation[$field_name];
+
+                dump($this->$field_name . '_' . $translation['language_id']);
+
+            }
+
+        }
+
+        //dd($this);
+
+        return $this;
+    }
+
     public function getTranslatable(): array
     {
         return $this->translatable;

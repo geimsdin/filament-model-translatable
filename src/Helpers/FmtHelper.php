@@ -20,11 +20,13 @@ class FmtHelper
 
             foreach ( $languages as $language_id => $language_iso_code ) {
 
-                $new_lang_model = new $lang_model();
 
-                if ($is_update && !empty( $lang_content_id = $record->where('language_id', $language_id)
-                    ->andWhere($lang_foreign_key, $record->id)->get()->value('id') ) ) {
-                    $new_lang_model->id = $lang_content_id;
+
+                if ( $is_update ) {
+                    $new_lang_model = $lang_model::where('language_id', $language_id)
+                    ->where($lang_foreign_key, $record->id)->first();
+                } else {
+                    $new_lang_model = new $lang_model();
                 }
 
                 $new_lang_model->$lang_foreign_key = $record->id;
@@ -34,7 +36,11 @@ class FmtHelper
                         $new_lang_model->$translatable = $data[$translatable . '_fmtLang_' . $language_id];
                     }
                 }
-                $new_lang_model->save();
+                if ( $is_update ) {
+                    $new_lang_model->update();
+                } else {
+                    $new_lang_model->save();
+                }
                 unset( $new_lang_model );
 
             }

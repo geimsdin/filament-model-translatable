@@ -5,11 +5,11 @@ namespace Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResou
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\FmtLanguageResource;
 
-class ListLanguages extends ListRecords
+class ListFmtLanguages extends ListRecords
 {
-    protected static string $resource = LanguageResource::class;
+    protected static string $resource = FmtLanguageResource::class;
 
     protected function getHeaderActions(): array
     {

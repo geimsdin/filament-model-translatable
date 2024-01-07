@@ -5,11 +5,11 @@ namespace Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResou
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource;
+use Unusualdope\FilamentModelTranslatable\Filament\Resources\FmtLanguageResource;
 
-class EditLanguage extends EditRecord
+class EditFmtLanguage extends EditRecord
 {
-    protected static string $resource = LanguageResource::class;
+    protected static string $resource = FmtLanguageResource::class;
 
     protected function getHeaderActions(): array
     {

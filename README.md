@@ -63,6 +63,7 @@ use Unusualdope\FilamentModelTranslatable\Models\FmtModel;
 
 class Post extends FmtModel
 {
+    //...
 ```
 
 Define some properties to make the plugin work, see the example with comments:

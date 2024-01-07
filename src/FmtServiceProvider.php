@@ -17,4 +17,9 @@ class FmtServiceProvider extends PackageServiceProvider
             ->hasCommand(Install::class);
      }
 
+     public function boot()
+     {
+
+     }
+
 }
