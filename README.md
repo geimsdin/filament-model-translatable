@@ -4,7 +4,7 @@
 Adds the ability to insert translations in content using a language table.
 For example you can create a main model that stores the object id and the data that is not translatable, on the lang model you have to define the foreign key for the main object(in this case post_id) and the one for the language that has always to be "language_id".
 Below an example of model definition in YAML for blueprint package:
-```
+```yaml
   Post:
     user_id: string
     postStatus_id: string nullable
@@ -25,14 +25,48 @@ Below an example of model definition in YAML for blueprint package:
 
 Simply install using composer
 
-`composer require unusualdope/filament-model-translatable`
+```bash
+composer require unusualdope/filament-model-translatable
+```
 
-run then `php artisan fmt:install` and follow the prompts to publish and run the migrations and create the languages.
+run then 
+```bash
+php artisan fmt:install
+```
+ and follow the prompts to publish and run the migrations and create the languages.
+
+ don't forget to register the plugin in your panel
+
+ ```php
+use Unusualdope\FilamentModelTranslatable\FmtPlugin;
+use Filament\Panel;
+ 
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FmtPlugin::make()
+            );
+    }
+}
+ ```
 
 ## MAIN MODEL
 
-In the main model you have to define some properties to make the plugin work, see the example with comments:
+In the main model extend the FmtModel:
+
+```php
+use Unusualdope\FilamentModelTranslatable\Models\FmtModel;
+
+class Post extends FmtModel
+{
 ```
+
+Define some properties to make the plugin work, see the example with comments:
+```php
     /**
      * Translatable props needed
      */
@@ -48,6 +82,7 @@ In the main model you have to define some properties to make the plugin work, se
             'methods' => [ //The methods you want to call from filament on your field to define it
                 'required' => '1',
                 'prefix' => 'title',
+                ...
                 'anotherMethod' => [
                     'param1' => '1',
                     'param2' => 'test'
@@ -69,13 +104,19 @@ In the main model you have to define some properties to make the plugin work, se
 ## RESOURCE
 
 In the RESOURCE you have to use the Trait fmtTrait and retrieve the translatable fields with 
-`self::addTranslatableFieldsToSchema(array $schema, Form $form, Bool false);` 
+
+```php
+self::addTranslatableFieldsToSchema(array $schema, Form $form, Bool false);
+``` 
+
 1 - As first parameter you can pass the current schema and it will give you back the full schema with the translatable fields appended at the end.
+
 2 - the Form object
+
 3 - If you want back only the array containing the schema of the translatable fields (to allow you to place it in the middle of your schema) set this to false (default is true)
 Below is just an example:
 
-```
+```php
 class PostResource extends Resource
 {
     use FmtModelTrait;
@@ -106,16 +147,23 @@ class PostResource extends Resource
 
 ## CREATE AND EDIT RESOURCE PAGES
 On the CREATE page extend 
-`Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtCreateRecord` 
-instead of the standard ~~`Filament\Resources\Pages\CreateRecord`~~
+
+```php
+Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtCreateRecord
+```
+
+instead of the standard 
+~~`Filament\Resources\Pages\CreateRecord`~~
 
 On the EDIT page extend 
-`Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtEditRecord` 
+```php
+Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtEditRecord
+```
 instead of the standard ~~`Filament\Resources\Pages\EditRecord`~~
 
 e.g.:
 
-```
+```php
 use Unusualdope\FilamentModelTranslatable\Filament\Resources\Pages\FmtCreateRecord;
 
 class CreatePlan extends FmtCreateRecord

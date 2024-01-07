@@ -2,7 +2,7 @@
 
 namespace  Unusualdope\FilamentModelTranslatable\Filament\Resources;
 
-
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\CreateLanguage;
 use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\EditLanguage;
 use Unusualdope\FilamentModelTranslatable\Filament\Resources\LanguageResource\Pages\ListLanguages;
@@ -13,11 +13,24 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class LanguageResource extends Resource
+class LanguageResource extends Resource implements HasShieldPermissions
 {
     protected static ?string $model = FmtLanguage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'publish'
+        ];
+    }
 
     public static function form(Form $form): Form
     {

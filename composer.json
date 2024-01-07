@@ -14,7 +14,8 @@
         "daftspunk/laravel-config-writer": "*",
         "guzzlehttp/guzzle": "^7.2",
         "filament/filament": "3.1",
-        "laravel/framework": "^10.10"
+        "laravel/framework": "^10.10",
+        "jeffgreco13/filament-breezy": "^2.2"
     },
     "extra": {
         "laravel": {
