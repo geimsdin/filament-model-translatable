@@ -8,6 +8,7 @@ use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
 
 class FmtEditRecord extends EditRecord
 {
+    private array $translatable_data;
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $record = $this->record;
@@ -26,7 +27,11 @@ class FmtEditRecord extends EditRecord
             //cycle through languages and fields to inject the translated data into the form
             foreach ($lang_contents as $lang_content ) {
                 foreach ( $translatables as $field => $params) {
+                    if( !isset($field) || !is_string( $field ) ) {
+                        $field = $params;
+                    }
                     $data[$field . '_fmtLang_' . $lang_content['language_id']] = $lang_content[$field];
+
                 }
             }
         }
@@ -34,12 +39,25 @@ class FmtEditRecord extends EditRecord
         //Assign the starting lang data to show
         $data['language_id'] = FmtLanguage::getCurrentLanguage();
 
-        return parent::mutateFormDataBeforeFill($data);
+        return $data;
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        foreach ($data as $field_name => $field_content) {
+            if ( strpos($field_name, "_fmtLang_") )
+            {
+                $this->translatable_data[$field_name] = $field_content;
+                unset($data[$field_name]);
+            }
+
+        }
+
+        return $data;
+    }
 
     protected function afterSave()
     {
-        FmtHelper::saveWithLang( $this->record, $this->data, true);
+        FmtHelper::saveWithLang( $this->record, $this->translatable_data, true);
     }
 }

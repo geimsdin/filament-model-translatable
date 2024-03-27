@@ -23,7 +23,8 @@ class FmtPlugin implements Plugin
         $panel
             ->resources([
                 FmtLanguageResource::class
-            ])->authGuard('web');
+            ])
+            ->authGuard('web');
     }
 
     public function boot(Panel $panel): void

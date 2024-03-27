@@ -20,27 +20,27 @@ class FmtModel extends Model
      *
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
-    public function fill(array $attributes)
-    {
-        parent::fill($attributes);
-
-
-        $translations = $this->lang_model::where($this->lang_foreign_key, $this->id);
-        foreach( $translations as $translation ) {
-
-            foreach( $this->translatable as $field_name => $translatable ) {
-                $this->$field_name . '_' . $translation['language_id'] = $translation[$field_name];
-
-                dump($this->$field_name . '_' . $translation['language_id']);
-
-            }
-
-        }
-
-        //dd($this);
-
-        return $this;
-    }
+//    public function fill(array $attributes)
+//    {
+//        parent::fill($attributes);
+//
+//
+//        $translations = $this->lang_model::where($this->lang_foreign_key, $this->id);
+//        foreach( $translations as $translation ) {
+//
+//            foreach( $this->translatable as $field_name => $translatable ) {
+//                $this->$field_name . '_' . $translation['language_id'] = $translation[$field_name];
+//
+//                dump($this->$field_name . '_' . $translation['language_id']);
+//
+//            }
+//
+//        }
+//
+//        //dd($this);
+//
+//        return $this;
+//    }
 
     public function getTranslatable(): array
     {
@@ -60,7 +60,7 @@ class FmtModel extends Model
     public function isTranslatable(): bool
     {
         return $this->is_translatable &&
-            count($this->translatable) > 0 &&
+            ( count($this->translatable) > 0 || count($this->getTranslatable() ) > 0) &&
             !empty($this->lang_model) &&
             !empty($this->lang_foreign_key);
     }
@@ -70,7 +70,12 @@ class FmtModel extends Model
         $data = $this->lang_model::where( $this->lang_foreign_key, $this->id)->get()->toArray();
         $result = [];
         foreach ( $data as $fieldname => $value ) {
-
+            dd( $fieldname, $value );
         }
+    }
+
+    public function getTranslatableFilamentFields()
+    {
+        return null;
     }
 }

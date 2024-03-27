@@ -2,6 +2,7 @@
     "name": "unusualdope/filament-model-translatable",
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0",
     "autoload": {
         "psr-4": {
             "Unusualdope\\FilamentModelTranslatable\\": "src"
@@ -11,7 +12,7 @@
         "php": "^8.1",
         "daftspunk/laravel-config-writer": "*",
         "guzzlehttp/guzzle": "^7.2",
-        "filament/filament": "3.1",
+        "filament/filament": "^3.1",
         "laravel/framework": "^10.10",
         "jeffgreco13/filament-breezy": "^2.2"
     },

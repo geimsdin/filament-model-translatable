@@ -9,9 +9,25 @@ use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
 class FmtCreateRecord extends CreateRecord
 {
 
-    protected function afterCreate()
+    private array $translatable_data;
+
+    protected function mutateFormDataBeforeCreate(array $data): array
     {
-        FmtHelper::saveWithLang( $this->record, $this->data, false);
+        foreach ($data as $field_name => $field_content) {
+            if ( strpos($field_name, "_fmtLang_") )
+            {
+                $this->translatable_data[$field_name] = $field_content;
+                unset($data[$field_name]);
+            }
+
+        }
+
+        return $data;
+    }
+
+    protected function afterCreate(): void
+    {
+        FmtHelper::saveWithLang( $this->record, $this->translatable_data, false);
     }
 
 }
