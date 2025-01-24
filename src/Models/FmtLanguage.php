@@ -64,6 +64,10 @@ class FmtLanguage extends Model
 
     public function save(array $options = [])
     {
+        Cache::delete('fmt_lang_default');
+        Cache::delete('fmt_lang_id_' . app()->getLocale());
+        Cache::delete('fmt_languages' );
+        
         //Only one default is possible
         if( $this->is_default ) {
             self::where('is_default', true)->update(['is_default' => false]);
