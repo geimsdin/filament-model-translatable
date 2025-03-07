@@ -20,9 +20,10 @@ class FmtHelper
 
             foreach ( $languages as $language_id => $language_iso_code ) {
 
-                if ( $is_update ) {
-                    $new_lang_model = $lang_model::where('language_id', $language_id)
+                $new_lang_model = $lang_model::where('language_id', $language_id)
                     ->where($lang_foreign_key, $record->id)->first();
+                if($new_lang_model){
+                    $is_update = true;
                 }
                 //If the lang model has been defined after the model already has data it has to be considered as a new insertion
                 if ( !$is_update || empty($new_lang_model) )
@@ -37,7 +38,7 @@ class FmtHelper
                     if ( is_int($translatable) && is_string( $options ) ) {
                         $translatable = $options;
                     }
-                    
+
                     if ( !empty( $data[$translatable . '_fmtLang_' . $language_id])){
                         $new_lang_model->$translatable = $data[$translatable . '_fmtLang_' . $language_id];
                     } elseif(array_key_exists($translatable . '_fmtLang_' . $language_id, $data)){
