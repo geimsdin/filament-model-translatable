@@ -6,6 +6,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use JetBrains\PhpStorm\NoReturn;
 use phpDocumentor\Reflection\DocBlock\Tags\MethodParameter;
 use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
@@ -146,18 +147,18 @@ trait HasTranslation
             ->where( $this->getLangForeignKey(), $this->id)->pluck($field)->value();
     }
 
-    public function currentLanguage(): HasMany
+    public function currentLanguage(): HasOne
     {
         $current_language_id = FmtLanguage::getCurrentLanguage();
         $lang_model = $this->lang_model;
 
         if (class_exists($lang_model)) {
-            return $this->hasMany($lang_model)
+            return $this->hasOne($lang_model)
                 ->where('language_id', $current_language_id);
         }
 
         // Handle the case where the class does not exist
-        return $this->hasMany(get_class($this))->whereRaw('1 = 0');
+        return $this->hasOne(get_class($this))->whereRaw('1 = 0');
     }
 
     public function languageData(): HasMany
