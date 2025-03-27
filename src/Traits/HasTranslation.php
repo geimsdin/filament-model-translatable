@@ -5,8 +5,10 @@ use App\Models\Stock\VariantGroupLanguage;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\NoReturn;
 use phpDocumentor\Reflection\DocBlock\Tags\MethodParameter;
 use Unusualdope\FilamentModelTranslatable\Models\FmtLanguage;
@@ -17,6 +19,18 @@ trait HasTranslation
     protected string $lang_model = __CLASS__ . 'Language';
 
     protected bool $is_translatable = true;
+
+    protected static function bootHasTranslation()
+    {
+        static::deleting(function (Model $model) {
+            if (method_exists($model, 'languages') && $model->languages() instanceof HasMany) {
+                $model->languages()->delete();
+                Log::info('Cascade delete on translations for model ID: ' . $model->id . ' (' . get_class($model) . ')');
+            } else {
+                Log::warning('Could not perform cascade delete on translations for model ID: ' . $model->id . ' (' . get_class($model) . '). "languages" relationship is not a HasMany.');
+            }
+        });
+    }
 
     public static function addTranslatableFieldsToSchema($field_name = null, $schema = null, $merge = false)
     {
@@ -73,15 +87,6 @@ trait HasTranslation
         return $this->is_translatable &&
             !empty($this->lang_model) &&
             !empty($this->getLangForeignKey());
-    }
-
-    public function langModel()
-    {
-        $data = $this->lang_model::where($this->getLangForeignKey(), $this->id)->get()->toArray();
-        $result = [];
-        foreach ($data as $fieldname => $value) {
-            dd($fieldname, $value);
-        }
     }
 
     public function setTranslatableFilamentFields(): array
@@ -157,11 +162,18 @@ trait HasTranslation
                 ->where('language_id', $current_language_id);
         }
 
-        // Handle the case where the class does not exist
+        // Handle the case where the class does not exist in an unelegant way
         return $this->hasOne(get_class($this))->whereRaw('1 = 0');
     }
 
     public function languageData(): HasMany
+    {
+
+        return $this->hasMany($this->lang_model);
+
+    }
+
+    public function languages(): HasMany
     {
 
         return $this->hasMany($this->lang_model);
