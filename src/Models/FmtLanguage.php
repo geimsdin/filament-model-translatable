@@ -41,7 +41,7 @@ class FmtLanguage extends Model
         return $result;
     }
 
-    public static function getCurrentLanguage()
+    public static function getCurrentLanguage(): int
     {
         $locale = app()->getLocale();
         if( Cache::has('fmt_lang_id_' . $locale ) ) {
