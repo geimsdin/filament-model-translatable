@@ -69,8 +69,4 @@ class FmtEditRecord extends EditRecord
         FmtHelper::saveWithLang( $this->record, $this->translatable_data, true);
     }
 
-    protected function getRenderHook(): string
-    {
-        return 'filament-model-translatable::components.tab-click-handler';
-    }
 }

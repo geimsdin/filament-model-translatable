@@ -63,9 +63,12 @@ class Install extends Command
 
             }
         }
+        if ($this->confirm("For FMTLang plugin to work properly you need to publish the assets, would you like to proceed?",true)){
+            $this->call('filament:assets');
+        }
 
         $this->line('All Done, enjoy your translatable content!');
-        if ($this->confirm('All done! Would you like to show some love by starring our plugin on GitHub?', true)) {
+        if ($this->confirm('Would you like to show some love by starring our plugin on GitHub?', true)) {
             if (PHP_OS_FAMILY === 'Darwin') {
                 exec('open https://github.com/geimsdin/filament-model-translatable');
             }

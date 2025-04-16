@@ -44,7 +44,7 @@ trait HasTranslation
             foreach ($languages as $lang_id => $lang_iso_code) {
                 $schema_tab = $object->getTranslatableFilamentFields( $field_name )['schema_' . $lang_id];
 
-                $lang_tab = Tabs\Tab::make(strtoupper($lang_iso_code))->extraAttributes(['class' => 'fmt_tab_lang_' . $lang_id])
+                $lang_tab = Tabs\Tab::make(strtoupper($lang_iso_code))->extraAttributes(['class' => 'fmt_tab_lang_' . $lang_iso_code])
                     ->schema(
                         $schema_tab
                     );

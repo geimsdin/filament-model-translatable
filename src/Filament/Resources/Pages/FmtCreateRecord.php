@@ -41,9 +41,4 @@ class FmtCreateRecord extends CreateRecord
         FmtHelper::saveWithLang( $this->record, $this->translatable_data, false);
     }
 
-    protected function getRenderHook(): string
-    {
-        return 'filament-model-translatable::components.tab-click-handler';
-    }
-
 }
