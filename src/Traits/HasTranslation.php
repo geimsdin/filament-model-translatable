@@ -1,7 +1,6 @@
 <?php
 namespace Unusualdope\FilamentModelTranslatable\Traits;
 
-use App\Models\Stock\VariantGroupLanguage;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
