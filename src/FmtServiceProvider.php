@@ -26,9 +26,6 @@ class FmtServiceProvider extends PackageServiceProvider
     {
         parent::boot();
 
-        // Ensure views are correctly loaded
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-model-translatable');
-
         FilamentAsset::register(
             [
                 Js::make('lang-switcher-js', __DIR__ . '/../resources/js/lang-switcher.js')
