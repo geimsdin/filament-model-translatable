@@ -2,7 +2,7 @@
     "name": "unusualdope/filament-model-translatable",
     "type": "library",
     "license": "MIT",
-    "version": "2.1.2",
+    "version": "2.1.2.1",
     "autoload": {
         "psr-4": {
             "Unusualdope\\FilamentModelTranslatable\\": "src"
