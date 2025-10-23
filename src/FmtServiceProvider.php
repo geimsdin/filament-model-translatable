@@ -17,7 +17,6 @@ class FmtServiceProvider extends PackageServiceProvider
         $package
             ->name('filament-model-translatable')
             ->hasMigrations('create_fmt_languages_table')
-            ->hasViews()
             ->hasCommand(Install::class);
 
      }
